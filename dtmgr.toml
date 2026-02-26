@@ -1,0 +1,14 @@
+dependencies = [
+  "scheme-basic",
+  "latexmk",
+  "libertine",
+  "currfile",
+  "filehook",
+  "biblatex",
+  "babel",
+  "biber",
+  "acmart",
+  "biblatex-trad",
+  "biblatex-software",
+  "xurl",
+]

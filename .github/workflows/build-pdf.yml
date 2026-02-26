@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up TeX Live
+        uses: s5bug/dtmgr-action@024de18a30aa474f88f9d8f4a527e56f645c10b7
+      - name: Setup Just
+        uses: extractions/setup-just@v3
+      - name: Build
+        run: just build
+      - name: Upload PDFs
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'pdfs'
+          path: out/main.pdf
