@@ -1,0 +1,213 @@
+@inproceedings{wang2011inferring,
+    author="Wang, Yipeng
+and Zhang, Zhibin
+and Yao, Danfeng (Daphne)
+and Qu, Buyun
+and Guo, Li",
+    editor="Lopez, Javier
+and Tsudik, Gene",
+    title="Inferring Protocol State Machine from Network Traces: A Probabilistic Approach",
+    booktitle="Applied Cryptography and Network Security",
+    year="2011",
+    publisher="Springer Berlin Heidelberg",
+    address="Berlin, Heidelberg",
+    pages="1--18",
+    abstract="Application-level protocol specifications (i.e., how a protocol should behave) are helpful for network security management, including intrusion detection and intrusion prevention. The knowledge of protocol specifications is also an effective way of detecting malicious code. However, current methods for obtaining unknown protocol specifications highly rely on manual operations, such as reverse engineering which is a major instrument for extracting application-level specifications but is time-consuming and laborious. Several works have focus their attentions on extracting protocol messages from real-world trace automatically, and leave protocol state machine unsolved.",
+    isbn="978-3-642-21554-4"
+}
+
+@article{walkinshaw2013inferring,
+    author={Walkinshaw, Neil and Taylor, Ramsay and Derrick, John},
+    booktitle={2013 20th Working Conference on Reverse Engineering (WCRE)},
+    title={Inferring Extended Finite State Machine models from software executions},
+    year={2013},
+    volume={},
+    number={},
+    pages={301-310},
+    keywords={Inference algorithms;Automata;Software;Software algorithms;Merging;Data models;Machine learning algorithms},
+    doi={10.1109/WCRE.2013.6671305}
+}
+
+@inproceedings{montplaisir2013efficient,
+    author="Montplaisir, Alexandre
+and Ezzati-Jivan, Naser
+and Wininger, Florian
+and Dagenais, Michel",
+    editor="Legay, Axel
+and Bensalem, Saddek",
+    title="Efficient Model to Query and Visualize the System States Extracted from Trace Data",
+    booktitle="Runtime Verification",
+    year="2013",
+    publisher="Springer Berlin Heidelberg",
+    address="Berlin, Heidelberg",
+    pages="219--234",
+    abstract="Any application, database server, telephony server, or operating system maintains different states for their internal elements and resources. When tracing is enabled on such systems, the corresponding events in the trace logs can be used to extract and model the different state values of the traced modules to analyze their runtime behavior. In this paper, a generic method and corresponding data structures are proposed to model and manage the system state values, allowing efficient storage and access. The proposed state organization mechanism generates state intervals from trace events and stores them in a tree-based state history database. The state history database can then be used to extract the state of any system resources (i.e. cpu, process, memory, file, etc.) at any timestamp. The extracted state values can be used to track system problems (e.g. performance degradation). The proposed system is usable in both the offline tracing mode, when there is a set of trace files, and online tracing mode, when there is a stream of trace events. The proposed system has been implemented and used to display and analyze interactively various information extracted from very large traces in the magnitude order of 1 TB.",
+    isbn="978-3-642-40787-1"
+}
+
+@inproceedings{kouame2015flexible,
+    author={Kouame, Kadjo and Ezzati-Jivan, Naser and Dagenais, Michel R.},
+    booktitle={2015 IEEE International Congress on Big Data},
+    title={A Flexible Data-Driven Approach for Execution Trace Filtering},
+    year={2015},
+    volume={},
+    number={},
+    pages={698-703},
+    keywords={XML;Pattern matching;Kernel;Servers;Data models;Complexity theory;Syntactics;Trace Analysis;Performance analysis;Data Filtering;LTTng},
+    doi={10.1109/BigDataCongress.2015.112}
+}
+
+@inproceedings{bao2008hmtt,
+    author = {Bao, Yungang and Chen, Mingyu and Ruan, Yuan and Liu, Li and Fan, Jianping and Yuan, Qingbo and Song, Bo and Xu, Jianwei},
+    title = {HMTT: a platform independent full-system memory trace monitoring system},
+    year = {2008},
+    isbn = {9781605580050},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    url = {https://doi.org/10.1145/1375457.1375484},
+    doi = {10.1145/1375457.1375484},
+    abstract = {Memory trace analysis is an important technology for architecture research, system software (i.e., OS, compiler) optimization, and application performance improvements. Many approaches have been used to track memory trace, such as simulation, binary instrumentation and hardware snooping. However, they usually have limitations of time, accuracy and capacity.In this paper we propose a platform independent memory trace monitoring system, which is able to track virtual memory reference trace of full systems (including OS, VMMs, libraries, and applications). The system adopts a DIMM-snooping mechanism that uses hardware boards plugged in DIMM slots to snoop. There are several advantages in this approach, such as fast, complete, undistorted, and portable. Three key techniques are proposed to address the system design challenges with this mechanism: (1) To keep up with memory speeds, the DDR protocol state machine is simplified, and large FIFOs are added between the state machine and the trace transmitting logic to handle burst memory accesses; (2) To reconstruct physical-tovirtual mapping and distinguish one process' address space from others, an OS kernel module, which collects page table information, and a synchronization mechanism, which synchronizes the page table information with the memory race, are developed; (3) To dump massive trace data, we employ a straightforward method to compress the trace and use Gigabit Ethernet and RAID to send and receive the compressed trace.We present our implementation of an initial monitoring system, named HMTT (Hyper Memory Trace Tracker). Using HMTT, we have observed that burst bandwidth utilization is much larger than average bandwidth utilization, by up to 5X in desktop applications. We have also confirmed that the stream memory accesses of many applications contribute even more than 40\% of L2 Cache misses and OS virtual memory management may decrease stream accesses in view of memory controller (or L2 Cache), by up to 30.2\%. Moreover, we have evaluated OS impact on memory performance in real systems. The evaluations and case studies show the feasibility and effectiveness of our proposed monitoring mechanism and techniques.},
+    booktitle = {Proceedings of the 2008 ACM SIGMETRICS International Conference on Measurement and Modeling of Computer Systems},
+    pages = {229–240},
+    numpages = {12},
+    keywords = {real system, memory trace, HMTT, DIMM},
+    location = {Annapolis, MD, USA},
+    series = {SIGMETRICS '08}
+}
+
+@article{wininger2017declarative,
+    volume = {25},
+    number = {1},
+    month = {March},
+    author = {Florian Wininger and Naser Ezzati-Jivan and Michel Dagenais},
+    title = {A declarative framework for stateful analysis of execution traces},
+    publisher = {Springer},
+    year = {2017},
+    journal = {Software Quality Journal},
+    doi = {10.1007/s11219-016-9311-0},
+    pages = {201--229},
+    keywords = {Software debugging, Declarative debugging, Execution trace analysis},
+    url = {https://publications.polymtl.ca/2987/},
+    abstract = {ABSTRACT: With newer complex multi-core systems, it is important to understand applications' run-time behaviour to be able to debug their executions, detect possible problems and bottlenecks and finally identify potential root-causes. Execution traces usually contain precise data about applications' execution, with which analysis and abstraction at multiple levels, they can provide valuable information and insights about the applications'run-time behaviour. However, with multiple abstraction levels, it becomes increasingly difficult to find the exact location of detected performance or security problem. Tracing tools provide various analysis views to help understand these problems. However, these views are not somehow enough to uncover all aspects of the underlying issues. The developer is in fact the one who best knows his application. Therefore, a declarative approach that enables users to specify and build their custom analysis based on their knowledge, requirements and problems can be more useful and effective. In this paper we propose a generic declarative trace analysis framework to analyze, comprehend and visualize execution traces. This enhanced framework builds custom analysis based on a specified modelled state, extracted from a system execution trace and stored in a special purpose database. The proposed solution enables users to first define their different analysis models based on their application and requirements, then visualize these models in many alternate representations (Gantt chart, XY chart, etc.), and finally filter the data to get some highlights or detect some potential patterns. Several sample applications with different operating systems are shown using trace events gathered from Linux and Windows kernel and user-space levels.}
+}
+
+@INPROCEEDINGS{willembrinck2021time,
+    author={Willembrinck, Maximilian and Costiou, Steven and Etien, Anne and Ducasse, Stéphane},
+    booktitle={2021 IEEE 21st International Conference on Software Quality, Reliability and Security (QRS)},
+    title={Time-Traveling Debugging Queries: Faster Program Exploration},
+    year={2021},
+    volume={},
+    number={},
+    pages={642-653},
+    keywords={Conferences;Debugging;Software quality;Software reliability;Security;Task analysis;IEEE activities;debugging;program comprehension;time-traveling queries},
+    doi={10.1109/QRS54544.2021.00074}
+}
+
+@article{barr2014tardis,
+    author = {Barr, Earl T. and Marron, Mark},
+    title = {Tardis: affordable time-travel debugging in managed runtimes},
+    year = {2014},
+    issue_date = {October 2014},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    volume = {49},
+    number = {10},
+    issn = {0362-1340},
+    url = {https://doi.org/10.1145/2714064.2660209},
+    doi = {10.1145/2714064.2660209},
+    abstract = {Developers who set a breakpoint a few statements too late or who are trying to diagnose a subtle bug from a single core dump often wish for a time-traveling debugger. The ability to rewind time to see the exact sequence of statements and program values leading to an error has great intuitive appeal but, due to large time and space overheads, time traveling debuggers have seen limited adoption. A managed runtime, such as the Java JVM or a JavaScript engine, has already paid much of the cost of providing core features - type safety, memory management, and virtual IO - that can be reused to implement a low overhead time-traveling debugger. We leverage this insight to design and build affordable time-traveling debuggers for managed languages. Tardis realizes our design: it provides affordable time-travel with an average overhead of only 7\% during normal execution, a rate of 0.6MB/s of history logging, and a worst-case 0.68s time-travel latency on our benchmark applications. Tardis can also debug optimized code using time-travel to reconstruct state. This capability, coupled with its low overhead, makes Tardis suitable for use as the default debugger for managed languages, promising to bring time-traveling debugging into the mainstream and transform the practice of debugging.},
+    journal = {SIGPLAN Not.},
+    month = oct,
+    pages = {67–82},
+    numpages = {16},
+    keywords = {time-traveling debugger, managed runtimes}
+}
+
+@INPROCEEDINGS{phang2013expositor,
+    author={Phang, Khoo Yit and Foster, Jeffrey S. and Hicks, Michael},
+    booktitle={2013 35th International Conference on Software Engineering (ICSE)},
+    title={Expositor: Scriptable time-travel debugging with first-class traces},
+    year={2013},
+    volume={},
+    number={},
+    pages={352-361},
+    keywords={Debugging;Data structures;Optimized production technology;Force;Computer bugs;Writing;Programming},
+    doi={10.1109/ICSE.2013.6606581}
+}
+
+@article{goldsmith2005relational,
+    author = {Goldsmith, Simon F. and O'Callahan, Robert and Aiken, Alex},
+    title = {Relational queries over program traces},
+    year = {2005},
+    issue_date = {October 2005},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    volume = {40},
+    number = {10},
+    issn = {0362-1340},
+    url = {https://doi.org/10.1145/1103845.1094841},
+    doi = {10.1145/1103845.1094841},
+    abstract = {Instrumenting programs with code to monitor runtime behavior is a common technique for profiling and debugging. In practice, instrumentation is either inserted manually by programmers, or automatically by specialized tools that monitor particular properties. We propose Program Trace Query Language (PTQL), a language based on relational queries over program traces, in which programmers can write expressive, declarative queries about program behavior. We also describe our compiler, Partiqle. Given a PTQL query and a Java program, Partiqle instruments the program to execute the query on-line. We apply several PTQL queries to a set of benchmark programs, including the Apache Tomcat Web server. Our queries reveal significant performance bugs in the jack SpecJVM98 benchmark, in Tomcat, and in the IBM Java class library, as well as some correct though uncomfortably subtle code in the Xerces XML parser. We present performance measurements demonstrating that our prototype system has usable performance.},
+    journal = {SIGPLAN Not.},
+    month = oct,
+    pages = {385–402},
+    numpages = {18},
+    keywords = {PTQL, partiqle, program trace query language, relational}
+}
+
+@inproceedings{andjelkovic2011trace,
+    author = {Andjelkovic, Igor and Artho, Cyrille},
+    booktitle = {Proc. JPF Workshop 2011 : },
+    note = {QC 20170104},
+    title = {Trace Server : A Tool for Storing, Querying and Analyzing Execution Traces},
+    year = {2011}
+}
+
+@article{aycock2024experimental,
+    title={Experimental Archaeogaming: A Case Study},
+    volume={12},
+    DOI={10.1017/aap.2024.5},
+    number={2},
+    journal={Advances in Archaeological Practice},
+    author={Aycock, John and Biittner, Katie},
+    year={2024}, pages={75–85}
+}
+
+@article{osborn2015playspecs,
+    title={Playspecs: Regular Expressions for Game Play Traces},
+    volume={11},
+    url={https://ojs.aaai.org/index.php/AIIDE/article/view/12803},
+    DOI={10.1609/aiide.v11i1.12803},
+    abstractNote={We introduce Playspecs, an application of omega-regular expressions to specifying play traces (sequences of game states or events unfolding over time). This connects the automated analysis and model checking of games to the literature on formal software verification via Bu ̈chi automata. We show how to define desirable or undesirable sequences of game events with Playspecs and how associated algorithms can find examples (or prove the impossibility) of such sequences. Playspecs have two main benefits over existing techniques for specifying the behaviors of a game over time. First, they offer a scalable commitment to formal modeling: the same Playspecs can filter existing traces gathered by telemetry, search for satisfying traces using existing game code, or drive formal verification when paired with a logical model of a game. Second, Playspecs’ syntax can be customized for the game engine or game in question so designers may write specifications using their game’s native vocabulary. We define Playspecs’ syntax and semantics (modulo gamespecific customizations) and outline algorithms for each of the applications mentioned above, providing examples from the social simulation game Prom Week and the puzzle game engine PuzzleScript.},
+    number={1},
+    journal={Proceedings of the AAAI Conference on Artificial Intelligence and Interactive Digital Entertainment},
+    author={Osborn, Joseph and Samuel, Ben and Mateas, Michael and Wardrip-Fruin, Noah},
+    year={2015},
+    month={Nov.},
+    pages={170-176}
+}
+
+@book{reinhard2018archaeogaming,
+    title={Archaeogaming: An introduction to archaeology in and of video games},
+    author={Reinhard, Andrew},
+    year={2018},
+    publisher={Berghahn Books}
+}
+
+@inproceedings{dolan2015repeatable,
+    author = {Dolan-Gavitt, Brendan and Hodosh, Josh and Hulin, Patrick and Leek, Tim and Whelan, Ryan},
+    title = {Repeatable Reverse Engineering with PANDA},
+    year = {2015},
+    isbn = {9781450336420},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    url = {https://doi.org/10.1145/2843859.2843867},
+    doi = {10.1145/2843859.2843867},
+    abstract = {We present PANDA, an open-source tool that has been purpose-built to support whole system reverse engineering. It is built upon the QEMU whole system emulator, and so analyses have access to all code executing in the guest and all data. PANDA adds the ability to record and replay executions, enabling iterative, deep, whole system analyses. Further, the replay log files are compact and shareable, allowing for repeatable experiments. A nine billion instruction boot of FreeBSD, e.g., is represented by only a few hundred MB. PANDA leverages QEMU's support of thirteen different CPU architectures to make analyses of those diverse instruction sets possible within the LLVM IR. In this way, PANDA can have a single dynamic taint analysis, for example, that precisely supports many CPUs. PANDA analyses are written in a simple plugin architecture which includes a mechanism to share functionality between plugins, increasing analysis code re-use and simplifying complex analysis development. We demonstrate PANDA's effectiveness via a number of use cases, including enabling an old but legitimately purchased game to run despite a lost CD key, in-depth diagnosis of an Internet Explorer crash, and uncovering the censorship activities and mechanisms of an IM client.},
+    booktitle = {Proceedings of the 5th Program Protection and Reverse Engineering Workshop},
+    articleno = {4},
+    numpages = {11},
+    keywords = {Introspection, instrumentation, record/replay},
+    location = {Los Angeles, CA, USA},
+    series = {PPREW-5}
+}
