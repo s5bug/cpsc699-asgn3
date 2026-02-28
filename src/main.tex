@@ -53,12 +53,13 @@
   \providecommand\BibTeX{{%
     Bib\TeX}}}
 
+\usepackage{cleveref}
 \usepackage{verbatimbox}
 
 \usepackage{etoolbox}
 \newtoggle{showoutline}
 \togglefalse{showoutline}
-\toggletrue{showoutline}
+%\toggletrue{showoutline}
 
 \newcommand{\outline}[1]{\iftoggle{showoutline}{#1}{}}
 
@@ -220,14 +221,30 @@
 }
 
 \textit{Archaeogaming} is a relatively recent field focusing on the study of games under the lens of archaeology~\cite{reinhard2018archaeogaming}.
-Many recent works in the field of archaeogaming specifically focus on video games and the machines that run them, specifically from a period of time where hand-written assembly was common.
-For example, \cite{aycock2024experimental} by Aycock and Biittner demonstrates applied archaeogaming in the context of developing software using the Apple II for the Commodore 64.
+One sub-focus of archaeogaming is the study of video games, and a further focus of that is the study of video games hand-written in assembly (i.e.\ before the advent of compilers).
+For example, Aycock and Biittner demonstrate in \cite{aycock2024experimental} applied archaeogaming in the context of developing software using the Apple II for the Commodore 64.
 
-This kind of archaeogaming warrants a few specialized tools.
-Emulators are already showcased in~\cite{aycock2024experimental}, and MAME serves as a great starting point for much of archaeogaming, as demonstrated.
-MAME includes a debugger, though the interface is very simple and doesn't support time-travel debugging (debugging where you can also ``step back'' instead of just forward).
-However, of particular interest are traces: recordings of sessions of real human interaction that include every state and cycle of the underlying machine.
-Traces allow one to do things such as compare the behavior of the same program between two different sessions, or compare the behavior of different programs that may have similar underlying systems.
+This sub-focus heavily overlaps with reverse engineering: when you're given a binary, how do you approach understanding it?
+The two major classes of analysis in this case are static analysis and dynamic analysis.
+In static analysis, a researcher takes an external view of the binary as a whole, such as loading the binary into a disassembler such as Ghidra or IDA\@.
+In dynamic analysis, the researcher is often running the program (either on hardware or via an emulator) using a debugger or some other ``live'' interface and are able to see the state of the machine along with the code it's running.
+
+Static analysis faces major issues for the kinds of platforms our sub-focus is interested in.
+First and foremost, the majority of static analysis software is purpose-built for code running on (relatively) modern hardware, where memory mapping is well-understood and mostly managed automatically by the underlying device.
+This excludes our systems that have memory regions and banks for which the mapper chips themselves live in external hardware and are controlled via memory accesses rather than system calls.
+Second, many static analysis techniques assume a binary format like ELF or PE, which have concepts of ``sections'' with different memory protections, whereas our code of interest being hand-written means instructions and data were very commonly interleaved throughout a binary.
+However, the major issue that static analysis faces in general even outside of this sub-focus, is that a reverse engineer has no idea of the code's true execution paths.
+When one looks at a single code path in a static analysis tool, there is no indication of what values might be in memory, how likely a function is to return a certain value, or how long a specific loop may run for.
+
+Dynamic analysis solves some of these issues, but has issues of its own.
+With dynamic analysis, one can tell what is being executed versus what is being loaded into registers to distinguish code from data.
+One can also easily track many executions to determine common values and execution paths, solving the major issue of static analysis.
+However, with dynamic analysis, it's very hard to get a full-program view: you might not yet know where a specific function is called from, and dynamic analysis can't tell you unless you know how to manipulate the program from the current state to call it.
+This can even be impossible in some cases, for example if the function is called early in the program and you've already moved your debugger past that point.
+
+There is a form of analysis that combines both the ``full context'' benefits of static analysis with the ``execution context'' benefits of dynamic analysis: trace analysis.
+In trace analysis, the program is run once while collecting everything a debugger might ever output (instructions decoded, memory operations performed, etc), and this collection is output somewhere permanent.
+Then, because this trace is effectively static (it was collected a single time and does not change from that point onward), it can aid the ability of static analysis.
 
 \section{Motivation}
 
@@ -239,11 +256,12 @@ Traces allow one to do things such as compare the behavior of the same program b
 \end{itemize}
 }
 
-Archaeogaming being a new field means it is lacking in the maturity in resources and maturity in tooling that other fields have.
-One of archaeogaming's facets, reverse engineering, has plenty of tools like GDB, IDA, and Ghidra, that have been in development for decades, but aren't suited towards archaeogaming due to their focus on relatively modern environments.
-This makes analyzing single games, not to mention a whole corpus of games together as one artifact, a relative challenge: these older machines can have memory mappers in external cartridges or features like banks and echo memory that completely sidestep traditional assumptions (namely, one virtual address mapping to one physical address).
+Archaeogaming being a relatively new field means it is lacking in the maturity in resources and maturity in tooling that other fields have.
+For the reverse engineering overlap mentioned previously, modern contexts are equipped with plenty of tools like GDB, IDA, and Ghidra, which have been in development for decades.
+These tools aren't suited towards archaeogaming due to their focus on relatively modern environments: as mentioned before, the systems we are interested in break the common conventions of those that the mentioned tools are built to analyze.
+This currently makes analyzing single games, not to mention a whole corpus of games together as one artifact, a relative challenge.
 
-These challenges lead to a need for new tools.
+We take this as evidence of a need for new tools.
 Specifically, a tool that allows the aggregation and analysis of a corpus of traces would answer many of these challenges.
 One could iterate through individual states looking for certain conditions or find patterns among the whole dataset, among other analyses that may be useful for archaeogaming.
 Some example usages for this tool (not exhaustive) may include:
@@ -259,7 +277,24 @@ Some example usages for this tool (not exhaustive) may include:
 
 \section{Related Work}
 
-\section{Methodology}
+\cite{bao2008hmtt} specifically focuses on platform-independent tracing.
+As archaeogaming deals with a multitude of systems, the ideas from this work are relevant towards building an archaeogaming-focused system.
+
+\cite{barr2014tardis} is about queries in the context of time-travel debugging, specifically at the implementation level.
+Given the relationship between time-travel debugging and program traces, this work will be helpful for implementing a trace query system.
+
+\cite{wang2011inferring} and \cite{walkinshaw2013inferring} detail approaches to inferring state patterns from execution traces.
+Specifically \cite{wang2011inferring} is about network protocols, but the ideas and methods are applicable to more general state machines.
+In games, there are often many different state machines that run concurrently, and it is important to be able to focus on how and where a single one of those machines is transformed.
+
+\cite{kouame2015flexible} and \cite{wininger2017declarative} cover scripting and analysis for traces.
+The main issue they tackle is the size of traces compared to the relative infrequency of useful data for a certain query.
+This is very relevant in archaeogaming: as mentioned before, usually games have a lot of state machines running concurrently, so focusing on one state machine ends up discarding all other state machines between updates.
+
+\cite{phang2013expositor} and \cite{willembrinck2021time} cover queries that make use of time-travel debugging.
+These works will give insight on how to combine static analysis with debugging, as well as useful queries in other software that may be applicable to games.
+
+\section{Methodology}\label{sec:methodology}
 
 \outline{
 \begin{itemize}
@@ -270,8 +305,8 @@ Some example usages for this tool (not exhaustive) may include:
 }
 
 We may initially build such a tool as a prototype (i.e.\ in Python, with unoptimized logic) that scans traces generated by \textsc{Lava}.
-\textsc{Lava} is an as-of-yet unpublished work, but an example of the trace format is shown in~\ref{fig:lava-snippet}.
-As traces are incredibly large uncompressed, and scanning through them as files must be done linearly, this tool will be incredibly slow.
+\textsc{Lava} is an as-of-yet unpublished work, but an example of the trace format is shown in~\cref{fig:lava-snippet}.
+As uncompressed traces can measure up to multiple gigabytes per minute, and scanning through them as files must be done linearly, this tool will be incredibly slow.
 We will treat it as a baseline: the minimum required to be ``a tool that analyzes traces''.
 
 \begin{figure}[ht]
@@ -300,27 +335,46 @@ W	00cdfe5a	d00a	00
 I	SNAPSHOT 9 cdfe5a
 D	00cdfe60	0140	f0f1	fee8	f14b	cbe8	d0	54	f468	TSTA
     \end{verbbox}
-    \centering\theverbbox
+    \centering\resizebox{0.4\textwidth}{!}{\theverbbox}
     \caption{A snippet of a \textsc{Lava} trace. The \texttt{R} commands show memory reads, \texttt{W} writes, \texttt{D} disassembly, and \texttt{I} logging from the tracer.}
     \label{fig:lava-snippet}
 \end{figure}
 
 Considering we want an SQL-like interface as the frontend for developer familiarity, we may consider moving the approach towards actual usage of a SQL database.
 We could compare the storage of traces singularly versus the storage of a forward trace and a reversed trace for faster or more efficient rewinding.
-
-There are existing works regarding the storage of program traces in databases (\cite{andjelkovic2011trace},~\cite{montplaisir2013efficient},~\cite{dolan2015repeatable}) that will be important references for efficient storage of our traces.
+There are existing works regarding the storage of program traces in databases (\cite{andjelkovic2011trace},~\cite{montplaisir2013efficient},~\cite{dolan2015repeatable}) which will be important references for efficient storage of our traces.
 It is likely incorporating ideas from these works will lead to further performance gains and insights on possible queries.
+Specifically, \cite{osborn2015playspecs} and \cite{goldsmith2005relational} detail the kinds of queries a programmer may want to make over state machines and program traces, respectively.
 
-Regarding queries, we must carefully consider the interface provided:~\cite{osborn2015playspecs} and~\cite{goldsmith2005relational} detail the kinds of queries a programmer may want to make over state machines and program traces, respectively.
-This will be done in tandem with incremental evaluation of the tool.
+We will use the tool itself to perform case studies on various reverse engineering tasks in the context of archaeogaming.
+We will document an example usage timeline of the tool in the process of single-game reverse engineering for a select few games, as well as an example usage for a corpus analysis.
+These case studies will provide demonstrations of the chosen query language, and offer opportunities to compare time and resource costs with other tools and processes.
 
-\section{Evaluation and Expectations}
+\section{Evaluation}
 
 \outline{
 \begin{itemize}
-    \item analyzing single games
-    \item demonstrating reverse engineering usage
-    \item analyzing a corpus of games (new)
+    \item time, space
+    \item autoethnography, autobiographical design
+\end{itemize}
+}
+
+We will evaluate success from two angles.
+The first is the performance angle: how long does our tool take to run certain tasks, and how much space does it use?
+Comparisons will be provided internally between different iterations of the tool, as well as other set-ups for specific case studies (refer to \cref{sec:methodology} for details on both).
+
+The second angle is the utility of the tool in the archaeogaming context: it is worth noting that not everyone interested in archaeogaming has a strong computer science background.
+We aim for the tool to be not only intuitive to use but also intuitive to understand.
+Evaluating this metric is much harder, but there are well-documented methods for doing so in the field of HCI\@.
+
+We will choose to take a path of autobiographical design, wherein we will document the usage process of our own design and analyze it via that documentation.
+Taking autobiographical design into account has been shown ``to uncover detailed, subtle understandings that \ldots{} likely wouldn't have [been] found with other user-centered design techniques''~\cite{neustaedter2012autobiographical}.
+As we who will be working on this project are predominantly video game reverse engineers, with skills in writing assembly for these older systems, we strongly believe that autobiographical design is the correct approach for evaluating the system we've built.
+
+\section{Expectations}
+
+\outline{
+\begin{itemize}
     \item expecting to match the results of other reverse engineering works
     \item a new tool that enables analysis of systems and common practices
 \end{itemize}
@@ -331,15 +385,14 @@ That is, we should be able to perform at least the same kinds of analysis using 
 This would be especially helpful to validate the use of traces themselves over live debugging for reverse engineering in the archaeogaming context.
 We note that usage of the MAME debugger to record traces themselves is particularly slow, and direct time-travel is impossible by default in MAME\@.
 
-We also expect the tool to prove its usefulness in the aforementioned areas of analysis.
-We will demonstrate the single-game case this by including demonstrations of the tool being used for two or three significantly different games.
-The utility will be mostly evident in the multi-game case: running a large set of programs at once under MAME, not to mention managing all of their debuggers at once, ends up being a headache.
-Ideally our tool will be well-designed for the multi-game case to make analysis simple and practical.
-
-We hope as a result of this work to fill one of the major gaps in tooling mentioned in the introduction.
-It's worth remembering here that archaeogaming is an interdisciplinary field: not everyone interested in archaeogaming has a strong computer science background.
-For this, the final major goal for the tool is to remain an open-source project with standards that prevent it from being classified under the ``academic code'' stereotype.
-This is a goal that extends beyond the scope of the paper, and beyond the timeline of a 2-year MSc.
+We aim for this tool to fill a major part of the previously-discussed gap in archaeogaming tooling.
+It is expected that this tool will be used in future archaeogaming works, and will be used in a broader reverse engineering context.
+Among the other examples mentioned in~\cite{reinhard2018archaeogaming}, examples of analyses that may be performed using this tool include:
+\begin{itemize}
+    \item of old game programming patterns for which the exact reasoning or technique may have been lost to time
+    \item of games that may have had development histories intertwined with time-specific cultural phenomena
+    \item of how programming techniques have evolved across languages or borders (regional programming styles)
+\end{itemize}
 
 %%
 %% The next two lines define the bibliography style to be used, and
